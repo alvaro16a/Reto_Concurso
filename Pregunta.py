@@ -1,4 +1,4 @@
-class pregunta():
+class Pregunta():
    
     def __init__(self, nivel):
         """

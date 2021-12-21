@@ -1,14 +1,10 @@
-import os
+import utility
+import time
+from Jugador import Jugador
 
 #Variable global
 estado = 0 #Esta variable le indica al probrama cual es su estado de operacion actual
 ejecucion = True
-
-def clear():
-    if os.name == "nt":
-        os.system("cls")
-    else:
-        os.system("clear")
 
 
 #Estados
@@ -22,7 +18,7 @@ def state0():
     """
 
     global estado,ejecucion
-    clear()
+    utility.clear() 
     print ("""
     1.Iniciar un nuevo juego
     2.Ver lista de ganadores
@@ -31,8 +27,12 @@ def state0():
     """)
     opcion=input("¿Que te gustaria hacer?: ")
 
-    if opcion == "4":
-        ejecucion=False 
+    if opcion == "1":
+        jugador=Jugador()
+        estado=1 if(jugador.validar_id()) else 0  
+        
+    elif (opcion== "4"):
+        ejecucion=False
 
 def state1():
     """
@@ -40,7 +40,8 @@ def state1():
     se inicia el temporizador
     """
     global estado
-
+    print("estoy en el estado 1")
+    time.sleep(50)
 def state2():
     """
     deacuerdo al resultado de la interacion anterior decide: 
