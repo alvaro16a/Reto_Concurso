@@ -1,5 +1,6 @@
 import sqlite3
-
+from BaseDeDatos import BaseDeDatos
+import random
 """
 conn = sqlite3.connect('musica.sqlite') #realiza una conexion con la base de datos musica.sqlite si no exite la crea
 cur = conn.cursor() #los cursores se usa para realizar operaciones en los datos de la base de datos
@@ -27,38 +28,52 @@ cur.close()
 """
 conn = sqlite3.connect('Concurso.sqlite')
 cur = conn.cursor()
+"""
 #cur.execute('INSERT INTO Jugadores (id, nombre,nivel,premio) VALUES (?, ? ,? ,?)',
 #    (1215, 'Andres', 3 ,400000))
 
 #conn.commit()
-"""""
+
 identificacion=1216
 #cur.execute('SELECT nombre FROM Jugadores WHERE id = 'identificacion'/ ')
-cur.execute('SELECT nombre FROM Jugadores WHERE id =?',(identificacion,) )
+cur.execute('SELECT nombre FROM Jugadores WHERE  =?',(identificacion,) )
 respuesta=cur.fetchone()
 print(respuesta)
 cur.close()
 
-"""
 
+"""
 #print("Preguntas:")
 """
 cur.execute('SELECT pregunta,respuesta,opcion1,opcion2,opcion3 FROM Preguntas WHERE nivel = 1 ORDER BY RANDOM() LIMIT 1')
 respuesta=cur.fetchone()
 print(respuesta[1])
 
-print('Canciones:')
-cur.execute('SELECT titulo, reproducciones FROM Canciones')
-for fila in cur:
-     print(fila)
+
 """
 
+
+""""
 cur.execute('SELECT nombre,nivel,premio FROM Jugadores ORDER BY premio DESC')
 for fila in cur:
      print(fila)
-
-
-
+"""
+nivel=1
+basededatos=BaseDeDatos()
+respuesta=basededatos.get_pregunta(nivel)
+lista=[1,2,3,4]
+lista2=[]
+contador=0
+while contador <4:
+    valor=random.choice(lista)
+    lista2.append(valor)
+    lista.remove(valor)
+    contador=contador+1
+print(respuesta[0])
+print("1->  ",respuesta[lista2[0]])
+print("2->  ",respuesta[lista2[1]])
+print("3->  ",respuesta[lista2[2]])
+print("4->  ",respuesta[lista2[3]])
 
 
 

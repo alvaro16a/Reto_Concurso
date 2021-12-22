@@ -21,7 +21,14 @@ class BaseDeDatos():
         cursor.close()
         return(respuesta)
    
+    def get_pregunta(self,nivel):
 
+        conexion = sqlite3.connect('Concurso.sqlite')
+        cursor = conexion.cursor()
+        cursor.execute('SELECT pregunta,respuesta,opcion1,opcion2,opcion3 FROM Preguntas WHERE nivel = ? ORDER BY RANDOM() LIMIT 1',(nivel,))
+        respuesta=cursor.fetchone()
+        return(respuesta)
 
+        
 
 

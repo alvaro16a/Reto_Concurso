@@ -1,12 +1,12 @@
-import utility
 import time
 from Jugador import Jugador
 from Pantalla import Pantalla 
+from Pregunta import Pregunta
 
 #Variable global
 estado = 0 #Esta variable le indica al probrama cual es su estado de operacion actual
 ejecucion = True
-
+nivel=1
 
 #Estados
 def state0():
@@ -24,7 +24,7 @@ def state0():
 
     if opcion == "1":
         jugador=Jugador()
-        estado=1 if(jugador.validar_id()) else 0  
+        estado=1
         
     elif (opcion == "2"):
         pantalla.mostrar_ganadores()
@@ -34,14 +34,14 @@ def state0():
     
     elif (opcion == "4"):
         ejecucion=False
-        
+
 def state1():
     """
     En este estado se carga la pregunta deacuerdo al nivel
     se inicia el temporizador
     """
     global estado
-    print("estoy en el estado 1")
+    pregunta=Pregunta(nivel)
     time.sleep(50)
 def state2():
     """
