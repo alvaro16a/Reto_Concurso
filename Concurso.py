@@ -1,6 +1,7 @@
 import utility
 import time
 from Jugador import Jugador
+from Pantalla import Pantalla 
 
 #Variable global
 estado = 0 #Esta variable le indica al probrama cual es su estado de operacion actual
@@ -18,14 +19,8 @@ def state0():
     """
 
     global estado,ejecucion
-    utility.clear() 
-    print ("""
-    1.Iniciar un nuevo juego
-    2.Ver lista de ganadores
-    3.ver lista de mayores puntajes
-    4.Terminar juego
-    """)
-    opcion=input("¿Que te gustaria hacer?: ")
+    pantalla=Pantalla()
+    opcion=pantalla.menu_inicial()
 
     if opcion == "1":
         jugador=Jugador()
