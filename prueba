@@ -27,11 +27,37 @@ cur.close()
 """
 conn = sqlite3.connect('Concurso.sqlite')
 cur = conn.cursor()
-#print("Preguntas:")
+#cur.execute('INSERT INTO Jugadores (id, nombre,nivel,premio) VALUES (?, ? ,? ,?)',
+#    (1215, 'Andres', 3 ,400000))
 
+#conn.commit()
+"""""
+identificacion=1216
+#cur.execute('SELECT nombre FROM Jugadores WHERE id = 'identificacion'/ ')
+cur.execute('SELECT nombre FROM Jugadores WHERE id =?',(identificacion,) )
+respuesta=cur.fetchone()
+print(respuesta)
+cur.close()
+
+"""
+
+#print("Preguntas:")
+"""
 cur.execute('SELECT pregunta,respuesta,opcion1,opcion2,opcion3 FROM Preguntas WHERE nivel = 1 ORDER BY RANDOM() LIMIT 1')
 respuesta=cur.fetchone()
 print(respuesta[1])
+
+print('Canciones:')
+cur.execute('SELECT titulo, reproducciones FROM Canciones')
+for fila in cur:
+     print(fila)
+"""
+
+cur.execute('SELECT nombre,nivel,premio FROM Jugadores ORDER BY premio DESC')
+for fila in cur:
+     print(fila)
+
+
 
 
 

@@ -1,4 +1,5 @@
 import utility
+from BaseDeDatos import BaseDeDatos
 
 class Pantalla():
    
@@ -20,9 +21,21 @@ class Pantalla():
         """)
         return(input("¿Que te gustaria hacer?: "))
 
+    def mostrar_ganadores(self):
+        baseDeDatos=BaseDeDatos()
+        ganadores=baseDeDatos.ganadores()
+        utility.clear() 
+        print("LISTA DE GANADORES")
+        for fila in ganadores:
+            print(fila)
+        salir=input("Presiona la tecla enter para volver al menu inicial ")
 
-    def set_nombre(self,jugador):
-        self.nombre=jugador
 
-    def set_premio(self,premio):
-        self.premio_actual=premio
+    def max_premios(self):
+        baseDeDatos=BaseDeDatos()
+        ganadores=baseDeDatos.premiados()
+        utility.clear() 
+        print("LISTA EN ORDEN DESCENDENTE DE MAYORES PREMIOS")
+        for fila in ganadores:
+            print(fila)
+        salir=input("Presiona la tecla enter para volver al menu inicial ") 

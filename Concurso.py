@@ -14,7 +14,7 @@ def state0():
     Despliega el menu inicial en el que el usuario puede escoger:
         1-iniciar nuevo juego
         2-ver lista de ganadores
-        3-lista de mayores puntajes
+        3-lista de mas premiados
         4-cerrar la app
     """
 
@@ -26,9 +26,15 @@ def state0():
         jugador=Jugador()
         estado=1 if(jugador.validar_id()) else 0  
         
-    elif (opcion== "4"):
-        ejecucion=False
+    elif (opcion == "2"):
+        pantalla.mostrar_ganadores()
 
+    elif (opcion == "3"):
+        pantalla.max_premios()
+    
+    elif (opcion == "4"):
+        ejecucion=False
+        
 def state1():
     """
     En este estado se carga la pregunta deacuerdo al nivel
