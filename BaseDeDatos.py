@@ -29,6 +29,14 @@ class BaseDeDatos():
         respuesta=cursor.fetchone()
         return(respuesta)
 
+    def set_jugador(self,nombre,nivel,premio):
+
+        conexion = sqlite3.connect('Concurso.sqlite')
+        cursor = conexion.cursor()
+        cursor.execute('INSERT INTO Jugadores (nombre,nivel,premio) VALUES ( ? ,? ,?)',(nombre, nivel, premio))
+        conexion.commit()
+        cursor.close()
+
         
 
 

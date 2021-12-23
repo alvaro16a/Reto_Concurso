@@ -1,91 +1,93 @@
+
 import time
 from Jugador import Jugador
 from Pantalla import Pantalla 
 from Pregunta import Pregunta
+from BaseDeDatos import BaseDeDatos
 
 #Variable global
 estado = 0 #Esta variable le indica al probrama cual es su estado de operacion actual
 ejecucion = True
 nivel=1
+pantalla=Pantalla()
+jugador=Jugador()
+baseDeDatos=BaseDeDatos()
 
 #Estados
 def state0():
     """
-    Despliega el menu inicial en el que el usuario puede escoger:
-        1-iniciar nuevo juego
-        2-ver lista de ganadores
-        3-lista de mas premiados
-        4-cerrar la app
+    Despliega el menu inicial y actua deacuerdo a lo seleccionado por el usuario
     """
-
-    global estado,ejecucion
-    pantalla=Pantalla()
+    global estado,ejecucion,pantalla,jugador
     opcion=pantalla.menu_inicial()
 
     if opcion == "1":
-        jugador=Jugador()
-        estado=1
-        
+        jugador.set_nombre()
+        estado=1    
     elif (opcion == "2"):
         pantalla.mostrar_ganadores()
-
     elif (opcion == "3"):
         pantalla.max_premios()
-    
     elif (opcion == "4"):
         ejecucion=False
 
 def state1():
     """
-    En este estado se carga la pregunta deacuerdo al nivel
-    se inicia el temporizador
+    Despliega la pregunta y actua deacuerdo a la respuesta del usuario
     """
-    global estado
+    global estado,nivel,pantalla,jugador
     pregunta=Pregunta(nivel)
-    time.sleep(50)
-def state2():
-    """
-    deacuerdo al resultado de la interacion anterior decide: 
-    si el jugador se retiro
-    acerto o se equivo 
-    termino el juego
-    """
-    global estado
+    respuesta_seleccionada,tiempo=pantalla.mostrar_pregunta(pregunta.pregunta,pregunta.desordenar_opciones(), jugador.premio_acumulado,nivel)
+    print(respuesta_seleccionada)
+    time.sleep(3)
+    
+    if(respuesta_seleccionada==pregunta.respuesta_correcta):
+        respuesta_correcta(tiempo)
+    elif(respuesta_seleccionada == "Retirarse"):
+        if(jugador.premio_acumulado>0):
+            print("Te retiras con tu premio desde ahora puedes ver tu nombre en la lista de Mayores premios")
+            baseDeDatos.set_jugador(jugador.nombre,jugador.nivel,jugador.premio_acumulado)
+            reset()
+        else:
+            print("No gano nada por lo que no se guarda el usuario")
+            reset()
+    elif(respuesta_seleccionada == "se acabo el tiempo"):
+            print("Te demoraste mucho para responder")
+            reset()
+    else:
+            print("Respuesta incorrecta")
+            reset()
 
-def state3():
+def reset():
     """
-    despliega mensaje de ganador
+    Esta funcion reinicia el juego
     """
-    global estado
+    global estado,nivel,jugador
+    jugador.reset_jugador()
+    time.sleep(5)
+    estado=0
+    nivel=1
 
-def state4():
+def respuesta_correcta(tiempo):
     """
-    despliega mensaje de retiro
+    Esta funcion ejecuta las acciones a realizar cuando se ha dado una respuesta correcta
     """
-    global estado
-
-def state5():
-    """
-    despliega mensaje de derrota
-    """
-    global estado
-
-def state6():
-    """
-    almacena informacion del jugador en la base de datos
-    """
-    global estado
+    global estado,nivel,jugador
+    jugador.actualizar_premio(tiempo)
+    nivel=nivel+1
+    jugador.nivel=nivel
+    print("respuesta correcta")
+    time.sleep(4)
+    if (nivel==6):
+        baseDeDatos.set_jugador(jugador.nombre,5,jugador.premio_acumulado)
+        print("Felicitaciones, ya puedes ver tu nombre en la lista de ganadores")
+        reset()    
 
 def FSM():
     global estado
     switch = {
         0:state0,
         1:state1,
-        2:state2,
-        3:state3,
-        4:state3,
-        5:state3,
-        6:state3,
     }
     switch.get(estado, state0)()
     
